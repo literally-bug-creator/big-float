@@ -1,0 +1,9 @@
+[submodule "benchmarks/third-party/benchmark"]
+	path = benchmarks/third-party/benchmark
+	url = https://github.com/google/benchmark.git
+[submodule "tests/third-party/gtest"]
+	path = tests/third-party/gtest
+	url = https://github.com/google/googletest.git
+[submodule "big_float/third-party/big-uint"]
+	path = big_float/third-party/big-uint
+	url = git@github.com:literally-bug-creator/big-unsigned-int.git
