@@ -12,7 +12,7 @@ namespace big_float {
 
 enum class BigFloatType : uint8_t { DEFAULT = 0, ZERO = 1, INF = 2, NAN = 3 };
 
-using Exponent = uint64_t;
+using Exponent = int64_t;
 
 struct BigFloat {  // NOLINT
     BigUInt mantissa;
