@@ -42,6 +42,8 @@ BigFloat sub(const BigFloat& minuend, const BigFloat& subtrahend);
 
 BigFloat mul(const BigFloat& multiplicand, const BigFloat& multiplier);
 
+BigFloat div(const BigFloat& dividend, const BigFloat& divisor);
+
 BigFloat sqrt(const BigFloat& operand);
 
 bool isEqual(const BigFloat& left, const BigFloat& right);
