@@ -46,7 +46,9 @@ BigFloat sqrt(const BigFloat& operand);
 
 bool isEqual(const BigFloat& left, const BigFloat& right);
 
-bool isLowerThan(const BigFloat& left, const BigFloat& right);
+bool isGreater(const BigFloat& left, const BigFloat& right);
+
+bool isLower(const BigFloat& left, const BigFloat& right);
 
 std::string toString(const BigFloat& number);
 
