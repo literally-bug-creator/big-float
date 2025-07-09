@@ -2,33 +2,48 @@
 
 #include <cstdint>
 
+#include "big_float.hpp"
+#include "sign.hpp"
+
 namespace big_float {
 
-const BigUInt& getMantissa(const BigFloat& number) {
-    return number.mantissa;
-}
-
-Exponent getExponent(const BigFloat& number) {
-    return number.exp;
-}
-
-BigFloatType getType(const BigFloat& number) {
+Type getType(const BigFloat& number) noexcept {
     return number.type;
 }
 
-bool getSign(const BigFloat& number) {
-    return number.isNegative;
+bool isZero(const BigFloat& number) noexcept {
+    return getType(number) == Type::ZERO;
 }
 
-bool isNegative(const BigFloat& number) {
-    return getSign(number);
+bool isInf(const BigFloat& number) noexcept {
+    return getType(number) == Type::INF;
 }
 
-size_t getSize(const BigFloat& number) {
-    return getMantissa(number).limbs.size();
+bool isNan(const BigFloat& number) noexcept {
+    return getType(number) == Type::NAN;
 }
 
-int64_t countPower(const BigFloat& number) {
+bool getSign(const BigFloat& number) noexcept {
+    return number.sign;
+}
+
+bool isNegative(const BigFloat& number) noexcept {
+    return getSign(number) == getNegative();
+}
+
+const BigUInt& getMantissa(const BigFloat& number) noexcept {
+    return number.number;
+}
+
+Exponent getExponent(const BigFloat& number) noexcept {
+    return number.exp;
+}
+
+size_t getSize(const BigFloat& number) noexcept {
+    return getMantissa(number).limbs.size();  // TODO: Replace by public function of `BigUInt`
+}
+
+int64_t countPower(const BigFloat& number) noexcept {
     return getExponent(number) + static_cast<int64_t>(getSize(number));
 }
 

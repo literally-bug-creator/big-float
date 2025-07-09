@@ -6,18 +6,18 @@
 
 namespace big_float {
 
-const BigUInt& getMantissa(const BigFloat& number);
+Type getType(const BigFloat& number) noexcept;
 
-Exponent getExponent(const BigFloat& number);
+bool getSign(const BigFloat& number) noexcept;
 
-BigFloatType getType(const BigFloat& number);
+bool isNegative(const BigFloat& number) noexcept;
 
-bool getSign(const BigFloat& number);
+const BigUInt& getMantissa(const BigFloat& number) noexcept;
 
-bool isNegative(const BigFloat& number);
+Exponent getExponent(const BigFloat& number) noexcept;
 
-size_t getSize(const BigFloat& number);
+size_t getSize(const BigFloat& number) noexcept;
 
-int64_t countPower(const BigFloat& number);
+int64_t countPower(const BigFloat& number) noexcept;
 
 }  // namespace big_float
