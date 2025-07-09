@@ -1,35 +1,32 @@
 #pragma once
 
-#include <cstdint>
 #include <string>
 
 #include "big_uint.hpp"
 #include "error.hpp"
+#include "exponent.hpp"
+#include "sign.hpp"
+#include "type.hpp"
 
 using namespace big_uint;
 
 namespace big_float {
 
-enum class BigFloatType : uint8_t { DEFAULT = 0, ZERO = 1, INF = 2, NAN = 3 };
-
-using Exponent = int64_t;
-
 struct BigFloat {  // NOLINT
-    BigUInt mantissa;
+    BigUInt number;
     Exponent exp;
-    BigFloatType type;
-    bool isNegative;
+    Type type;
+    Sign sign;
     Error error;
 };
 
-BigFloat makeBigFloat(BigUInt mantissa, Exponent exp, bool isNeg, BigFloatType type,
-                      Error error) noexcept;
+BigFloat makeBigFloat(BigUInt number, Exponent exp, Sign sign, Type type, Error error) noexcept;
 
-BigFloat makeZero(bool isNegative = false, const Error& error = getDefaultError()) noexcept;
+BigFloat makeZero(Sign sign = getPositive(), const Error& error = getDefaultError()) noexcept;
 
-BigFloat makeInf(bool isNegative = false, const Error& error = getDefaultError()) noexcept;
+BigFloat makeInf(Sign sign = getPositive(), const Error& error = getDefaultError()) noexcept;
 
-BigFloat makeNan(bool isNegative = false, const Error& error = getDefaultError()) noexcept;
+BigFloat makeNan(Sign sign = getPositive(), const Error& error = getDefaultError()) noexcept;
 
 bool isZero(const BigFloat& number) noexcept;
 
