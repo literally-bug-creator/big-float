@@ -19,4 +19,4 @@ const ErrorCode& getErrorCode(const Error& error);
 bool isOk(const Error& error);
 
 Error getDefaultError();
-}  // namespace big_number
+}  // namespace big_float
