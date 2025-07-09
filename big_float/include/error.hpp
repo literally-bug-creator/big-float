@@ -12,11 +12,11 @@ struct Error {
     ErrorCode code;
 };
 
-Error makeError(ErrorCode code);
+Error makeError(ErrorCode code) noexcept;
 
-const ErrorCode& getErrorCode(const Error& error);
+const ErrorCode& getErrorCode(const Error& error) noexcept;
 
-bool isOk(const Error& error);
+bool isOk(const Error& error) noexcept;
 
-Error getDefaultError();
+Error getDefaultError() noexcept;
 }  // namespace big_float
