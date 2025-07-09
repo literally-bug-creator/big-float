@@ -34,7 +34,7 @@ format:
 	xargs clang-format -i --style=file
 
 static-analysis: debug
-	@find big_unsigned_int -name "*.cpp" -o -name "*.hpp" -o -name "*.h" | \
+	@find big_float -name "*.cpp" -o -name "*.hpp" -o -name "*.h" | \
 	xargs clang-tidy -p $(BUILD_DIR) --quiet
 
 clean:
