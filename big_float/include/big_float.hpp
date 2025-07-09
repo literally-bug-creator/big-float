@@ -22,36 +22,43 @@ struct BigFloat {  // NOLINT
     Error error;
 };
 
-BigFloat makeBigFloat(BigUInt mantissa, Exponent exp, bool isNeg, BigFloatType type, Error error);
+BigFloat makeBigFloat(BigUInt mantissa, Exponent exp, bool isNeg, BigFloatType type,
+                      Error error) noexcept;
 
-BigFloat makeZero(const Error& error, bool isNegative = false);
+BigFloat makeZero(bool isNegative = false, const Error& error = getDefaultError()) noexcept;
 
-BigFloat makeNan(const Error& error, bool isNegative = false);
+BigFloat makeInf(bool isNegative = false, const Error& error = getDefaultError()) noexcept;
 
-BigFloat makeInf(const Error& error, bool isNegative);
+BigFloat makeNan(bool isNegative = false, const Error& error = getDefaultError()) noexcept;
 
-const Error& getError(const BigFloat& number);
+bool isZero(const BigFloat& number) noexcept;
 
-BigFloat abs(const BigFloat& number);
+bool isInf(const BigFloat& number) noexcept;
 
-BigFloat neg(const BigFloat& number);
+bool isNan(const BigFloat& number) noexcept;
 
-BigFloat add(const BigFloat& augend, const BigFloat& addend);
+const Error& getError(const BigFloat& number) noexcept;
 
-BigFloat sub(const BigFloat& minuend, const BigFloat& subtrahend);
+std::string toString(const BigFloat& number) noexcept;
 
-BigFloat mul(const BigFloat& multiplicand, const BigFloat& multiplier);
+bool isEqual(const BigFloat& left, const BigFloat& right) noexcept;
 
-BigFloat div(const BigFloat& dividend, const BigFloat& divisor);
+bool isGreater(const BigFloat& left, const BigFloat& right) noexcept;
 
-BigFloat sqrt(const BigFloat& operand);
+bool isLower(const BigFloat& left, const BigFloat& right) noexcept;
 
-bool isEqual(const BigFloat& left, const BigFloat& right);
+BigFloat abs(const BigFloat& number) noexcept;
 
-bool isGreater(const BigFloat& left, const BigFloat& right);
+BigFloat neg(const BigFloat& number) noexcept;
 
-bool isLower(const BigFloat& left, const BigFloat& right);
+BigFloat add(const BigFloat& augend, const BigFloat& addend) noexcept;
 
-std::string toString(const BigFloat& number);
+BigFloat sub(const BigFloat& minuend, const BigFloat& subtrahend) noexcept;
+
+BigFloat mul(const BigFloat& multiplicand, const BigFloat& multiplier) noexcept;
+
+BigFloat div(const BigFloat& dividend, const BigFloat& divisor) noexcept;
+
+BigFloat sqrt(const BigFloat& operand) noexcept;
 
 }  // namespace big_float
