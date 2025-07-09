@@ -64,17 +64,19 @@ Comparison compare(const BigFloat& lhs, const BigFloat& rhs) {
     Comparison byValue = compareByValue(lhs, rhs);
     return (isNegative(lhs)) ? neg(byValue) : byValue;
 }
+
 }  // namespace
 
-bool isEqual(const BigFloat& left, const BigFloat& right) {
+bool isEqual(const BigFloat& left, const BigFloat& right) noexcept {
     return compare(left, right) == Comparison::EQUAL;
 }
 
-bool isGreater(const BigFloat& left, const BigFloat& right) {
+bool isGreater(const BigFloat& left, const BigFloat& right) noexcept {
     return compare(left, right) == Comparison::GREATER;
 }
 
-bool isLower(const BigFloat& left, const BigFloat& right) {
+bool isLower(const BigFloat& left, const BigFloat& right) noexcept {
     return compare(left, right) == Comparison::LOWER;
 }
+
 }  // namespace big_float
