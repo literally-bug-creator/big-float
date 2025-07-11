@@ -35,6 +35,7 @@ format:
 
 static-analysis: debug
 	@find big_float -name "*.cpp" -o -name "*.hpp" -o -name "*.h" | \
+	grep -v "third-party" | \
 	xargs clang-tidy -p $(BUILD_DIR) --quiet
 
 clean:
