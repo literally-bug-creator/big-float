@@ -1,9 +1,12 @@
 #include "getters.hpp"
 
+#include <cstddef>
 #include <cstdint>
 
 #include "big_float.hpp"
+#include "exponent.hpp"
 #include "sign.hpp"
+#include "type.hpp"
 
 namespace big_float {
 
