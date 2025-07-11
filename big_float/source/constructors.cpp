@@ -1,7 +1,10 @@
 #include "big_float.hpp"
 #include "big_uint.hpp"
 #include "error.hpp"
+#include "exponent.hpp"
 #include "sign.hpp"
+#include "type.hpp"
+#include <utility>
 
 namespace big_float {
 namespace {

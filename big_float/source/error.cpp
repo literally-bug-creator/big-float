@@ -14,8 +14,7 @@ const ErrorCode& getErrorCode(const Error& error) noexcept {
 }
 
 bool isOk(const Error& error) noexcept {
-    ErrorCode code = getErrorCode(error);
-    return code == ErrorCode::OK;
+    return getErrorCode(error) == ErrorCode::OK;
 }
 
 Error getDefaultError() noexcept {

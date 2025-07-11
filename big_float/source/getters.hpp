@@ -4,6 +4,7 @@
 #include <cstdint>
 
 #include "big_float.hpp"
+#include "big_uint.hpp"
 #include "exponent.hpp"
 #include "type.hpp"
 
