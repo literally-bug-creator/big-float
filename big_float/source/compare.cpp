@@ -17,64 +17,66 @@ Comparison neg(Comparison value) {
 }
 
 Comparison compareBySign(const BigFloat& lhs, const BigFloat& rhs) {
-    bool lhsSign = getSign(lhs);
-    bool rhsSign = getSign(rhs);
-    if (lhsSign == rhsSign) {
+    const bool LHS_SIGN = getSign(lhs);
+    const bool RHS_SIGN = getSign(rhs);
+    if (LHS_SIGN == RHS_SIGN) {
         return Comparison::EQUAL;
     }
-    if (static_cast<int>(lhsSign) < static_cast<int>(rhsSign)) {
+    if (static_cast<int>(LHS_SIGN) < static_cast<int>(RHS_SIGN)) {
         return Comparison::GREATER;
     }
     return Comparison::LOWER;
 }
 
 Comparison compareByLength(const BigFloat& lhs, const BigFloat& rhs) {
-    int64_t lhsPower = countPower(lhs);
-    int64_t rhsPower = countPower(rhs);
-    if (lhsPower == rhsPower) {
+    const int64_t LHS_POWER = countPower(lhs);
+    const int64_t RHS_POWER = countPower(rhs);
+    if (LHS_POWER == RHS_POWER) {
         return Comparison::EQUAL;
     }
-    if (lhsPower > rhsPower) {
+    if (LHS_POWER > RHS_POWER) {
         return Comparison::GREATER;
     }
     return Comparison::LOWER;
 }
 
 Comparison compareByValue(const BigFloat& lhs, const BigFloat& rhs) {
-    BigUInt lhsMantissa = getMantissa(lhs);
-    BigUInt rhsMantissa = getMantissa(rhs);
-    if (isEqual(lhsMantissa, rhsMantissa)) {
+    const BigUInt LHS_MANTISSA = getMantissa(lhs);
+    const BigUInt RHS_MANTISSA = getMantissa(rhs);
+    if (isEqual(LHS_MANTISSA, RHS_MANTISSA)) {
         return Comparison::EQUAL;
     }
-    if (isGreater(lhsMantissa, rhsMantissa)) {
+    if (isGreater(LHS_MANTISSA, RHS_MANTISSA)) {
         return Comparison::GREATER;
     }
     return Comparison::LOWER;
 }
 
 Comparison compare(const BigFloat& lhs, const BigFloat& rhs) {
-    Comparison bySign = compareBySign(lhs, rhs);
-    if (bySign != Comparison::EQUAL) {
-        return bySign;
+    const Comparison BY_SIGN = compareBySign(lhs, rhs);
+    if (BY_SIGN != Comparison::EQUAL) {
+        return BY_SIGN;
     }
-    Comparison byLength = compareByLength(lhs, rhs);
-    if (byLength != Comparison::EQUAL) {
-        return (isNegative(lhs)) ? neg(byLength) : byLength;
+    const Comparison BY_LENGTH = compareByLength(lhs, rhs);
+    if (BY_LENGTH != Comparison::EQUAL) {
+        return (isNegative(lhs)) ? neg(BY_LENGTH) : BY_LENGTH;
     }
-    Comparison byValue = compareByValue(lhs, rhs);
-    return (isNegative(lhs)) ? neg(byValue) : byValue;
+    const Comparison BY_VALUE = compareByValue(lhs, rhs);
+    return (isNegative(lhs)) ? neg(BY_VALUE) : BY_VALUE;
 }
+
 }  // namespace
 
-bool isEqual(const BigFloat& left, const BigFloat& right) {
+bool isEqual(const BigFloat& left, const BigFloat& right) noexcept {
     return compare(left, right) == Comparison::EQUAL;
 }
 
-bool isGreater(const BigFloat& left, const BigFloat& right) {
+bool isGreater(const BigFloat& left, const BigFloat& right) noexcept {
     return compare(left, right) == Comparison::GREATER;
 }
 
-bool isLower(const BigFloat& left, const BigFloat& right) {
+bool isLower(const BigFloat& left, const BigFloat& right) noexcept {
     return compare(left, right) == Comparison::LOWER;
 }
+
 }  // namespace big_float

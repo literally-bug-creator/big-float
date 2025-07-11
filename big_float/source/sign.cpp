@@ -1,21 +1,29 @@
-#include "big_float.hpp"
-#include "getters.hpp"
+#include "sign.hpp"
 
 namespace big_float {
-BigFloat abs(const BigFloat& number) {
-    BigUInt mantissa = getMantissa(number);
-    Exponent exp = getExponent(number);
-    BigFloatType type = getType(number);
-    Error error = getError(number);
-    return makeBigFloat(std::move(mantissa), exp, false, type, error);
+namespace {
+constexpr Sign POSITIVE = false;
+constexpr Sign NEGATIVE = true;
+}  // namespace
+
+Sign getPositive() noexcept {
+    return POSITIVE;
 }
 
-BigFloat neg(const BigFloat& number) {
-    BigUInt mantissa = getMantissa(number);
-    Exponent exp = getExponent(number);
-    BigFloatType type = getType(number);
-    Error error = getError(number);
-    bool sign = !getSign(number);
-    return makeBigFloat(std::move(mantissa), exp, sign, type, error);
+Sign getNegative() noexcept {
+    return NEGATIVE;
 }
+
+bool isPositive(const Sign& sign) noexcept {
+    return sign == POSITIVE;
+}
+
+bool isNegative(const Sign& sign) noexcept {
+    return sign == NEGATIVE;
+}
+
+Sign invert(const Sign& sign) noexcept {
+    return isPositive(sign) ? getNegative() : getPositive();
+}
+
 }  // namespace big_float
