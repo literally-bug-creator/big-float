@@ -34,6 +34,11 @@ IsNan(const BigFloat& number) noexcept {
 }
 
 bool
+IsSpecial(const BigFloat& number) noexcept {
+  return GetType(number) != Type::kDefault;
+}
+
+Sign
 GetSign(const BigFloat& number) noexcept {
   return number.sign;
 }
