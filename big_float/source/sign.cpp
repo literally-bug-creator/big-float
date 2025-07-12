@@ -2,28 +2,35 @@
 
 namespace big_float {
 namespace {
-constexpr Sign POSITIVE = false;
-constexpr Sign NEGATIVE = true;
+
+constexpr Sign kPositive = false;
+constexpr Sign kNegative = true;
+
 }  // namespace
 
-Sign getPositive() noexcept {
-    return POSITIVE;
+Sign
+GetPositive() noexcept {
+  return kPositive;
 }
 
-Sign getNegative() noexcept {
-    return NEGATIVE;
+Sign
+GetNegative() noexcept {
+  return kNegative;
 }
 
-bool isPositive(const Sign& sign) noexcept {
-    return sign == POSITIVE;
+bool
+IsPositive(const Sign& sign) noexcept {
+  return sign == kPositive;
 }
 
-bool isNegative(const Sign& sign) noexcept {
-    return sign == NEGATIVE;
+bool
+IsNegative(const Sign& sign) noexcept {
+  return sign == kNegative;
 }
 
-Sign invert(const Sign& sign) noexcept {
-    return isPositive(sign) ? getNegative() : getPositive();
+Sign
+Invert(const Sign& sign) noexcept {
+  return IsPositive(sign) ? GetNegative() : GetPositive();
 }
 
 }  // namespace big_float

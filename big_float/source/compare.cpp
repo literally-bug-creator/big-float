@@ -4,79 +4,90 @@
 #include "big_uint.hpp"
 #include "getters.hpp"
 
+using big_uint::BigUInt;
+
 namespace big_float {
 namespace {
+
 enum class Comparison : int8_t {
-    GREATER = 1,
-    EQUAL = 0,
-    LOWER = -1,
+  kGreater = 1,
+  kEqual = 0,
+  kLower = -1,
 };
 
-Comparison neg(Comparison value) {
-    return Comparison(-int8_t(value));
+Comparison
+Neg(Comparison value) {
+  return Comparison(-static_cast<int8_t>(value));
 }
 
-Comparison compareBySign(const BigFloat& lhs, const BigFloat& rhs) {
-    const bool LHS_SIGN = getSign(lhs);
-    const bool RHS_SIGN = getSign(rhs);
-    if (LHS_SIGN == RHS_SIGN) {
-        return Comparison::EQUAL;
-    }
-    if (static_cast<int>(LHS_SIGN) < static_cast<int>(RHS_SIGN)) {
-        return Comparison::GREATER;
-    }
-    return Comparison::LOWER;
+Comparison
+CompareBySign(const BigFloat& lhs, const BigFloat& rhs) {
+  const bool kLhsSign = GetSign(lhs);
+  const bool kRhsSign = GetSign(rhs);
+  if (kLhsSign == kRhsSign) {
+    return Comparison::kEqual;
+  }
+  if (static_cast<int>(kLhsSign) < static_cast<int>(kRhsSign)) {
+    return Comparison::kGreater;
+  }
+  return Comparison::kLower;
 }
 
-Comparison compareByLength(const BigFloat& lhs, const BigFloat& rhs) {
-    const int64_t LHS_POWER = countPower(lhs);
-    const int64_t RHS_POWER = countPower(rhs);
-    if (LHS_POWER == RHS_POWER) {
-        return Comparison::EQUAL;
-    }
-    if (LHS_POWER > RHS_POWER) {
-        return Comparison::GREATER;
-    }
-    return Comparison::LOWER;
+Comparison
+CompareByLength(const BigFloat& lhs, const BigFloat& rhs) {
+  const int64_t kLhsPower = CountPower(lhs);
+  const int64_t kRhsPower = CountPower(rhs);
+  if (kLhsPower == kRhsPower) {
+    return Comparison::kEqual;
+  }
+  if (kLhsPower > kRhsPower) {
+    return Comparison::kGreater;
+  }
+  return Comparison::kLower;
 }
 
-Comparison compareByValue(const BigFloat& lhs, const BigFloat& rhs) {
-    const BigUInt LHS_MANTISSA = getMantissa(lhs);
-    const BigUInt RHS_MANTISSA = getMantissa(rhs);
-    if (isEqual(LHS_MANTISSA, RHS_MANTISSA)) {
-        return Comparison::EQUAL;
-    }
-    if (isGreater(LHS_MANTISSA, RHS_MANTISSA)) {
-        return Comparison::GREATER;
-    }
-    return Comparison::LOWER;
+Comparison
+CompareByValue(const BigFloat& lhs, const BigFloat& rhs) {
+  const BigUInt kLhsMantissa = GetMantissa(lhs);
+  const BigUInt kRhsMantissa = GetMantissa(rhs);
+  if (isEqual(kLhsMantissa, kRhsMantissa)) {
+    return Comparison::kEqual;
+  }
+  if (isGreater(kLhsMantissa, kRhsMantissa)) {
+    return Comparison::kGreater;
+  }
+  return Comparison::kLower;
 }
 
-Comparison compare(const BigFloat& lhs, const BigFloat& rhs) {
-    const Comparison BY_SIGN = compareBySign(lhs, rhs);
-    if (BY_SIGN != Comparison::EQUAL) {
-        return BY_SIGN;
-    }
-    const Comparison BY_LENGTH = compareByLength(lhs, rhs);
-    if (BY_LENGTH != Comparison::EQUAL) {
-        return (isNegative(lhs)) ? neg(BY_LENGTH) : BY_LENGTH;
-    }
-    const Comparison BY_VALUE = compareByValue(lhs, rhs);
-    return (isNegative(lhs)) ? neg(BY_VALUE) : BY_VALUE;
+Comparison
+Compare(const BigFloat& lhs, const BigFloat& rhs) {
+  const Comparison kBySign = CompareBySign(lhs, rhs);
+  if (kBySign != Comparison::kEqual) {
+    return kBySign;
+  }
+  const Comparison kByLength = CompareByLength(lhs, rhs);
+  if (kByLength != Comparison::kEqual) {
+    return (IsNegative(lhs)) ? Neg(kByLength) : kByLength;
+  }
+  const Comparison kByValue = CompareByValue(lhs, rhs);
+  return (IsNegative(lhs)) ? Neg(kByValue) : kByValue;
 }
 
 }  // namespace
 
-bool isEqual(const BigFloat& left, const BigFloat& right) noexcept {
-    return compare(left, right) == Comparison::EQUAL;
+bool
+IsEqual(const BigFloat& left, const BigFloat& right) noexcept {
+  return Compare(left, right) == Comparison::kEqual;
 }
 
-bool isGreater(const BigFloat& left, const BigFloat& right) noexcept {
-    return compare(left, right) == Comparison::GREATER;
+bool
+IsGreater(const BigFloat& left, const BigFloat& right) noexcept {
+  return Compare(left, right) == Comparison::kGreater;
 }
 
-bool isLower(const BigFloat& left, const BigFloat& right) noexcept {
-    return compare(left, right) == Comparison::LOWER;
+bool
+IsLower(const BigFloat& left, const BigFloat& right) noexcept {
+  return Compare(left, right) == Comparison::kLower;
 }
 
 }  // namespace big_float

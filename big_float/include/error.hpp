@@ -4,19 +4,23 @@
 
 namespace big_float {
 enum class ErrorCode : uint8_t {
-    OK,
-    ERROR,
+  kOk,
+  kError,
 };
 
 struct Error {
-    ErrorCode code;
+  ErrorCode code;
 };
 
-Error makeError(ErrorCode code) noexcept;
+Error
+MakeError(ErrorCode code) noexcept;
 
-const ErrorCode& getErrorCode(const Error& error) noexcept;
+const ErrorCode&
+GetErrorCode(const Error& error) noexcept;
 
-bool isOk(const Error& error) noexcept;
+bool
+IsOk(const Error& error) noexcept;
 
-Error getDefaultError() noexcept;
+Error
+GetDefaultError() noexcept;
 }  // namespace big_float

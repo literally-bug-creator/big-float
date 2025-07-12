@@ -4,6 +4,6 @@
 
 namespace big_float {
 
-enum class Type : uint8_t { DEFAULT = 0, ZERO = 1, INF = 2, NAN = 3 };
+enum class Type : uint8_t { kDefault = 0, kZero = 1, kInf = 2, kNan = 3 };
 
 }

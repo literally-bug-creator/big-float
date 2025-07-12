@@ -7,33 +7,45 @@
 #include "sign.hpp"
 #include "type.hpp"
 
+using big_uint::BigUInt;
+using big_uint::makeZero;
+
 namespace big_float {
 namespace {
 
-const BigUInt ZERO_NUMBER = big_uint::makeZero();
-const BigUInt INF_NUMBER = big_uint::makeZero();
-const BigUInt NAN_NUMBER = big_uint::makeZero();
+const BigUInt kZeroNumber = makeZero();
+const BigUInt kInfNumber = makeZero();
+const BigUInt kNanNumber = makeZero();
 
-constexpr Exponent ZERO_EXP = 0;
-constexpr Exponent INF_EXP = 0;
-constexpr Exponent NAN_EXP = 0;
+constexpr Exponent kZeroExp = 0;
+constexpr Exponent kInfExp = 0;
+constexpr Exponent kNanExp = 0;
 
 }  // namespace
 
-BigFloat makeBigFloat(BigUInt number, Exponent exp, Sign sign, Type type, Error error) noexcept {
-    return {.number = std::move(number), .exp = exp, .type = type, .sign = sign, .error = error};
+BigFloat
+MakeBigFloat(BigUInt number, Exponent exp, Sign sign, Type type,
+             Error error) noexcept {
+  return {.number = std::move(number),
+          .exp = exp,
+          .type = type,
+          .sign = sign,
+          .error = error};
 }
 
-BigFloat makeZero(Sign sign, const Error& error) noexcept {
-    return makeBigFloat(ZERO_NUMBER, ZERO_EXP, sign, Type::ZERO, error);
+BigFloat
+MakeZero(Sign sign, const Error& error) noexcept {
+  return MakeBigFloat(kZeroNumber, kZeroExp, sign, Type::kZero, error);
 }
 
-BigFloat makeInf(Sign sign, const Error& error) noexcept {
-    return makeBigFloat(INF_NUMBER, INF_EXP, sign, Type::INF, error);
+BigFloat
+MakeInf(Sign sign, const Error& error) noexcept {
+  return MakeBigFloat(kInfNumber, kInfExp, sign, Type::kInf, error);
 }
 
-BigFloat makeNan(Sign sign, const Error& error) noexcept {
-    return makeBigFloat(NAN_NUMBER, NAN_EXP, sign, Type::NAN, error);
+BigFloat
+MakeNan(Sign sign, const Error& error) noexcept {
+  return MakeBigFloat(kNanNumber, kNanExp, sign, Type::kNan, error);
 }
 
 }  // namespace big_float
