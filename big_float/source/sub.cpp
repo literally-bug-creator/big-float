@@ -4,8 +4,10 @@
 #include "big_float.hpp"
 #include "big_uint.hpp"
 #include "error.hpp"
+#include "exponent.hpp"
 #include "getters.hpp"
 #include "sign.hpp"
+#include "type.hpp"
 
 using big_uint::BigUInt;
 
@@ -24,7 +26,7 @@ SubNonSpecial(const BigFloat& lhs, const BigFloat& rhs) noexcept {
   const BigUInt& rhs_mantissa = GetMantissa(rhs);
 
   BigUInt result_mantissa;
-  Exponent result_exponent = kLhsExp;
+  Exponent result_exponent = kLhsExp;  // NOLINT
   Sign result_sign = GetSign(lhs);
 
   if (kLhsExp == kRhsExp) {
@@ -91,8 +93,8 @@ SubFromInf(const BigFloat& lhs, const BigFloat& rhs) noexcept {
     case Type::kDefault:
       return lhs;
     case Type::kInf:
-      bool is_equal_by_sign = IsEqual(GetSign(lhs), GetSign(rhs));
-      return is_equal_by_sign ? MakeNan() : lhs;
+      const bool kIsEqualBySign = IsEqual(GetSign(lhs), GetSign(rhs));
+      return kIsEqualBySign ? MakeNan() : lhs;
   }
 }
 
