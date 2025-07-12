@@ -12,21 +12,14 @@ Checks: >
   -linuxkernel-*,
   -openmp-*,
   google-*,
-  -readability-magic-numbers,
-  -cppcoreguidelines-avoid-magic-numbers,
   -modernize-use-trailing-return-type,
-  -readability-function-cognitive-complexity,
   -bugprone-easily-swappable-parameters,
   -misc-non-private-member-variables-in-classes,
   -cppcoreguidelines-non-private-member-variables-in-classes,
   -readability-identifier-length,
-  -modernize-use-nodiscard,
   -cppcoreguidelines-avoid-do-while,
   -readability-else-after-return,
   -readability-static-accessed-through-instance,
-  -cppcoreguidelines-pro-bounds-pointer-arithmetic,
-  -cppcoreguidelines-pro-bounds-array-to-pointer-decay,
-  -hicpp-no-array-decay
 
 WarningsAsErrors: >
   bugprone-*,
@@ -218,7 +211,7 @@ CheckOptions:
   - key: bugprone-string-constructor.WarnOnLargeLength
     value: true
   - key: bugprone-string-constructor.LargeLengthThreshold
-    value: 0x800000
+    value: 1048576
   - key: bugprone-suspicious-string-compare.WarnOnImplicitComparison
     value: true
   - key: bugprone-suspicious-string-compare.WarnOnLogicalNotComparison
