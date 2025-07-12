@@ -14,6 +14,9 @@ Type
 GetType(const BigFloat& number) noexcept;
 
 bool
+IsSpecial(const BigFloat& number) noexcept;
+
+bool
 GetSign(const BigFloat& number) noexcept;
 
 bool

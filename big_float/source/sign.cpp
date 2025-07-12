@@ -1,5 +1,7 @@
 #include "sign.hpp"
 
+#include <cstdint>
+
 namespace big_float {
 namespace {
 
@@ -31,6 +33,11 @@ IsNegative(const Sign& sign) noexcept {
 Sign
 Invert(const Sign& sign) noexcept {
   return IsPositive(sign) ? GetNegative() : GetPositive();
+}
+
+bool
+IsEqual(const Sign& lhs, const Sign& rhs) noexcept {
+  return static_cast<uint8_t>(lhs) == static_cast<uint8_t>(rhs);
 }
 
 }  // namespace big_float
