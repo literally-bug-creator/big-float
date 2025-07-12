@@ -4,6 +4,7 @@
 #include "big_uint.hpp"
 #include "getters.hpp"
 #include "sign.hpp"
+#include "type.hpp"
 
 using big_uint::BigUInt;
 

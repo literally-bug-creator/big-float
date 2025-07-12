@@ -4,8 +4,10 @@
 #include "big_float.hpp"
 #include "big_uint.hpp"
 #include "error.hpp"
+#include "exponent.hpp"
 #include "getters.hpp"
 #include "sign.hpp"
+#include "type.hpp"
 
 using big_uint::BigUInt;
 
@@ -24,8 +26,8 @@ AddNonSpecial(const BigFloat& lhs, const BigFloat& rhs) noexcept {
   const BigUInt& rhs_mantissa = GetMantissa(rhs);
 
   BigUInt result_mantissa;
-  Exponent result_exponent = kLhsExp;
-  Sign result_sign = GetSign(lhs);
+  Exponent result_exponent = kLhsExp;  // NOLINT
+  const Sign kResultSign = GetSign(lhs);
 
   if (kLhsExp == kRhsExp) {
     result_mantissa = big_uint::add(lhs_mantissa, rhs_mantissa);
@@ -44,7 +46,7 @@ AddNonSpecial(const BigFloat& lhs, const BigFloat& rhs) noexcept {
     return MakeZero();
   }
 
-  return MakeBigFloat(result_mantissa, result_exponent, result_sign,
+  return MakeBigFloat(result_mantissa, result_exponent, kResultSign,
                       Type::kDefault, GetDefaultError());
 }
 
@@ -70,8 +72,8 @@ AddFromInf(const BigFloat& lhs, const BigFloat& rhs) noexcept {
     case Type::kDefault:
       return lhs;
     case Type::kInf:
-      bool is_equal_by_sign = IsEqual(GetSign(lhs), GetSign(rhs));
-      return is_equal_by_sign ? lhs : MakeNan();
+      const bool kIsEqualBySign = IsEqual(GetSign(lhs), GetSign(rhs));
+      return kIsEqualBySign ? lhs : MakeNan();
   }
 }
 
