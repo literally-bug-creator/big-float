@@ -346,3 +346,63 @@ TEST_F(ComparisonTest, LowerSmallerExponent) {
 
   EXPECT_EQ(result, expected);
 }
+
+TEST_F(ComparisonTest, NegativeLargerMagnitudeIsLower) {
+  BigFloat neg_small = MakeNumber(kSmallNumber, 0, true);  // -123
+  BigFloat neg_large = MakeNumber(kLargeNumber, 0, true);  // -456
+  bool expected = true;
+
+  bool result = IsLower(neg_large, neg_small);
+
+  EXPECT_EQ(result, expected);
+}
+
+TEST_F(ComparisonTest, NegativeSmallerMagnitudeIsGreater) {
+  BigFloat neg_small = MakeNumber(kSmallNumber, 0, true);  // -123
+  BigFloat neg_large = MakeNumber(kLargeNumber, 0, true);  // -456
+  bool expected = true;
+
+  bool result = IsGreater(neg_small, neg_large);
+
+  EXPECT_EQ(result, expected);
+}
+
+TEST_F(ComparisonTest, NegativeIsLowerThanZero) {
+  BigFloat neg_num = MakeNumber(kSmallNumber, 0, true);
+  BigFloat zero = MakeZero(GetPositive());
+  bool expected = true;
+
+  bool result = IsLower(neg_num, zero);
+
+  EXPECT_EQ(result, expected);
+}
+
+TEST_F(ComparisonTest, NegativeIsLowerThanPositive) {
+  BigFloat neg_num = MakeNumber(kSmallNumber, 0, true);
+  BigFloat pos_num = MakeNumber(kSmallNumber, 0, false);
+  bool expected = true;
+
+  bool result = IsLower(neg_num, pos_num);
+
+  EXPECT_EQ(result, expected);
+}
+
+TEST_F(ComparisonTest, EqualNegativeNumbers) {
+  BigFloat neg1 = MakeNumber(kSmallNumber, 0, true);
+  BigFloat neg2 = MakeNumber(kSmallNumber, 0, true);
+  bool expected = true;
+
+  bool result = IsEqual(neg1, neg2);
+
+  EXPECT_EQ(result, expected);
+}
+
+TEST_F(ComparisonTest, NegativeLargerExponentIsLower) {
+  BigFloat neg_small_exp = MakeNumber(kSmallNumber, kSmallExponent, true);
+  BigFloat neg_large_exp = MakeNumber(kSmallNumber, kLargeExponent, true);
+  bool expected = true;
+
+  bool result = IsLower(neg_large_exp, neg_small_exp);
+
+  EXPECT_EQ(result, expected);
+}
