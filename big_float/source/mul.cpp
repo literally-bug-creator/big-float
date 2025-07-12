@@ -1,8 +1,10 @@
 #include "big_float.hpp"
 #include "big_uint.hpp"
 #include "error.hpp"
+#include "exponent.hpp"
 #include "getters.hpp"
 #include "sign.hpp"
+#include "type.hpp"
 
 using big_uint::BigUInt;
 
@@ -22,13 +24,13 @@ MulNonSpecial(const BigFloat& lhs, const BigFloat& rhs) noexcept {
   const Exponent kLhsExp = GetExponent(lhs);
   const Exponent kRhsExp = GetExponent(rhs);
 
-  BigUInt result_mantissa = big_uint::mul(lhs_mantissa, rhs_mantissa);
-  Exponent result_exponent = kLhsExp + kRhsExp;
-  Sign result_sign = GetResultSign(lhs, rhs);
-  if (big_uint::isZero(result_mantissa)) {
-    return MakeZero(result_sign);
+  const BigUInt kResultMantissa = big_uint::mul(lhs_mantissa, rhs_mantissa);
+  const Exponent kResultExponent = kLhsExp + kRhsExp;
+  const Sign kResultSign = GetResultSign(lhs, rhs);
+  if (big_uint::isZero(kResultMantissa)) {
+    return MakeZero(kResultSign);
   }
-  return MakeBigFloat(result_mantissa, result_exponent, result_sign,
+  return MakeBigFloat(kResultMantissa, kResultExponent, kResultSign,
                       Type::kDefault, GetDefaultError());
 }
 
