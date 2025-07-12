@@ -5,6 +5,7 @@
 
 #include "big_float.hpp"
 #include "big_uint.hpp"
+#include "error.hpp"
 #include "exponent.hpp"
 #include "sign.hpp"
 #include "type.hpp"
@@ -65,8 +66,7 @@ GetError(const BigFloat& number) noexcept {
 
 size_t
 GetSize(const BigFloat& number) noexcept {
-  return GetMantissa(number)
-      .limbs.size();  // TODO(lbc): Replace by public function of `BigUInt`
+  return big_uint::getSize(GetMantissa(number));
 }
 
 int64_t
