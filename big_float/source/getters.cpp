@@ -58,6 +58,11 @@ GetExponent(const BigFloat& number) noexcept {
   return number.exp;
 }
 
+const Error&
+GetError(const BigFloat& number) noexcept {
+  return number.error;
+}
+
 size_t
 GetSize(const BigFloat& number) noexcept {
   return GetMantissa(number)
