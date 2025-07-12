@@ -76,6 +76,20 @@ CompareNonSpecial(const BigFloat& lhs, const BigFloat& rhs) {
 }
 
 Comparison
+CompareNonSpecialWithSpecial(const BigFloat& lhs, const BigFloat& rhs) {
+  switch (GetType(rhs)) {
+    case Type::kNan:
+      return Comparison::kNotEqual;
+    case Type::kZero:
+      return IsNegative(lhs) ? Comparison::kLower : Comparison::kGreater;
+    case Type::kInf:
+      return IsNegative(rhs) ? Comparison::kGreater : Comparison::kLower;
+    case Type::kDefault:
+      return CompareNonSpecial(lhs, rhs);
+  }
+}
+
+Comparison
 CompareZero(const BigFloat& rhs) {
   switch (GetType(rhs)) {
     case Type::kNan:
@@ -114,7 +128,7 @@ CompareSpecial(const BigFloat& lhs, const BigFloat& rhs) {
     case Type::kZero:
       return CompareZero(rhs);
     default:
-      return CompareNonSpecial(lhs, rhs);
+      return CompareNonSpecialWithSpecial(lhs, rhs);
   }
 }
 
