@@ -348,8 +348,8 @@ TEST_F(ComparisonTest, LowerSmallerExponent) {
 }
 
 TEST_F(ComparisonTest, NegativeLargerMagnitudeIsLower) {
-  BigFloat neg_small = MakeNumber(kSmallNumber, 0, true);  // -123
-  BigFloat neg_large = MakeNumber(kLargeNumber, 0, true);  // -456
+  BigFloat neg_small = MakeNumber(kSmallNumber, 0, true);
+  BigFloat neg_large = MakeNumber(kLargeNumber, 0, true);
   bool expected = true;
 
   bool result = IsLower(neg_large, neg_small);
@@ -358,8 +358,8 @@ TEST_F(ComparisonTest, NegativeLargerMagnitudeIsLower) {
 }
 
 TEST_F(ComparisonTest, NegativeSmallerMagnitudeIsGreater) {
-  BigFloat neg_small = MakeNumber(kSmallNumber, 0, true);  // -123
-  BigFloat neg_large = MakeNumber(kLargeNumber, 0, true);  // -456
+  BigFloat neg_small = MakeNumber(kSmallNumber, 0, true);
+  BigFloat neg_large = MakeNumber(kLargeNumber, 0, true);
   bool expected = true;
 
   bool result = IsGreater(neg_small, neg_large);
