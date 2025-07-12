@@ -3,6 +3,7 @@
 #include "big_float.hpp"
 #include "big_uint.hpp"
 #include "getters.hpp"
+#include "sign.hpp"
 
 using big_uint::BigUInt;
 
@@ -10,9 +11,10 @@ namespace big_float {
 namespace {
 
 enum class Comparison : int8_t {
-  kGreater = 1,
-  kEqual = 0,
-  kLower = -1,
+  kGreater = 2,
+  kEqual = 1,
+  kNotEqual = -1,
+  kLower = -2,
 };
 
 Comparison
@@ -22,12 +24,12 @@ Neg(Comparison value) {
 
 Comparison
 CompareBySign(const BigFloat& lhs, const BigFloat& rhs) {
-  const bool kLhsSign = GetSign(lhs);
-  const bool kRhsSign = GetSign(rhs);
-  if (kLhsSign == kRhsSign) {
+  const Sign kLhsSign = GetSign(lhs);
+  const Sign kRhsSign = GetSign(rhs);
+  if (IsEqual(kLhsSign, kRhsSign)) {
     return Comparison::kEqual;
   }
-  if (static_cast<int>(kLhsSign) < static_cast<int>(kRhsSign)) {
+  if (IsNegative(kRhsSign)) {
     return Comparison::kGreater;
   }
   return Comparison::kLower;
@@ -60,7 +62,7 @@ CompareByValue(const BigFloat& lhs, const BigFloat& rhs) {
 }
 
 Comparison
-Compare(const BigFloat& lhs, const BigFloat& rhs) {
+CompareNonSpecial(const BigFloat& lhs, const BigFloat& rhs) {
   const Comparison kBySign = CompareBySign(lhs, rhs);
   if (kBySign != Comparison::kEqual) {
     return kBySign;
@@ -71,6 +73,57 @@ Compare(const BigFloat& lhs, const BigFloat& rhs) {
   }
   const Comparison kByValue = CompareByValue(lhs, rhs);
   return (IsNegative(lhs)) ? Neg(kByValue) : kByValue;
+}
+
+Comparison
+CompareZero(const BigFloat& rhs) {
+  switch (GetType(rhs)) {
+    case Type::kNan:
+      return Comparison::kNotEqual;
+    case Type::kZero:
+      return Comparison::kEqual;
+    case Type::kInf:
+    case Type::kDefault:
+      return IsNegative(rhs) ? Comparison::kGreater : Comparison::kLower;
+  }
+}
+
+Comparison
+CompareInf(const BigFloat& lhs, const BigFloat& rhs) {
+  switch (GetType(rhs)) {
+    case Type::kNan:
+      return Comparison::kNotEqual;
+    case Type::kZero:
+    case Type::kDefault:
+      return IsNegative(lhs) ? Comparison::kLower : Comparison::kGreater;
+    case Type::kInf:
+      if (IsEqual(GetSign(lhs), GetSign(rhs))) {
+        return Comparison::kEqual;
+      }
+      return IsNegative(lhs) ? Comparison::kLower : Comparison::kGreater;
+  }
+}
+
+Comparison
+CompareSpecial(const BigFloat& lhs, const BigFloat& rhs) {
+  switch (GetType(lhs)) {
+    case Type::kNan:
+      return Comparison::kNotEqual;
+    case Type::kInf:
+      return CompareInf(lhs, rhs);
+    case Type::kZero:
+      return CompareZero(rhs);
+    default:
+      return CompareNonSpecial(lhs, rhs);
+  }
+}
+
+Comparison
+Compare(const BigFloat& lhs, const BigFloat& rhs) {
+  if (IsSpecial(lhs) || IsSpecial(rhs)) {
+    return CompareSpecial(lhs, rhs);
+  }
+  return CompareNonSpecial(lhs, rhs);
 }
 
 }  // namespace
