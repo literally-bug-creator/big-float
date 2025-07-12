@@ -9,46 +9,59 @@
 #include "sign.hpp"
 #include "type.hpp"
 
+using big_uint::BigUInt;
+
 namespace big_float {
 
-Type getType(const BigFloat& number) noexcept {
-    return number.type;
+Type
+GetType(const BigFloat& number) noexcept {
+  return number.type;
 }
 
-bool isZero(const BigFloat& number) noexcept {
-    return getType(number) == Type::ZERO;
+bool
+IsZero(const BigFloat& number) noexcept {
+  return GetType(number) == Type::kZero;
 }
 
-bool isInf(const BigFloat& number) noexcept {
-    return getType(number) == Type::INF;
+bool
+IsInf(const BigFloat& number) noexcept {
+  return GetType(number) == Type::kInf;
 }
 
-bool isNan(const BigFloat& number) noexcept {
-    return getType(number) == Type::NAN;
+bool
+IsNan(const BigFloat& number) noexcept {
+  return GetType(number) == Type::kNan;
 }
 
-bool getSign(const BigFloat& number) noexcept {
-    return number.sign;
+bool
+GetSign(const BigFloat& number) noexcept {
+  return number.sign;
 }
 
-bool isNegative(const BigFloat& number) noexcept {
-    return getSign(number) == getNegative();
+bool
+IsNegative(const BigFloat& number) noexcept {
+  return GetSign(number) == GetNegative();
 }
 
-const BigUInt& getMantissa(const BigFloat& number) noexcept {
-    return number.number;
+const BigUInt&
+GetMantissa(const BigFloat& number) noexcept {
+  return number.number;
 }
 
-Exponent getExponent(const BigFloat& number) noexcept {
-    return number.exp;
+Exponent
+GetExponent(const BigFloat& number) noexcept {
+  return number.exp;
 }
 
-size_t getSize(const BigFloat& number) noexcept {
-    return getMantissa(number).limbs.size();  // TODO: Replace by public function of `BigUInt`
+size_t
+GetSize(const BigFloat& number) noexcept {
+  return GetMantissa(number)
+      .limbs.size();  // TODO(lbc): Replace by public function of `BigUInt`
 }
 
-int64_t countPower(const BigFloat& number) noexcept {
-    return getExponent(number) + static_cast<int64_t>(getSize(number));
+int64_t
+CountPower(const BigFloat& number) noexcept {
+  return GetExponent(number) + static_cast<int64_t>(GetSize(number));
 }
 
 }  // namespace big_float

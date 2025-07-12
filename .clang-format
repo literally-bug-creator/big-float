@@ -1,26 +1,30 @@
 ---
 Language: Cpp
-BasedOnStyle: LLVM
+BasedOnStyle: Google
 Standard: c++20
 
 # Indentation
-IndentWidth: 4
-TabWidth: 4
+IndentWidth: 2
+TabWidth: 2
 UseTab: Never
 IndentCaseLabels: true
 IndentPPDirectives: BeforeHash
 IndentWrappedFunctionNames: false
-AccessModifierOffset: -2
+AccessModifierOffset: -1
+ConstructorInitializerIndentWidth: 4
+ContinuationIndentWidth: 4
 
 # Line length and breaks
-ColumnLimit: 100
+ColumnLimit: 80
 BreakBeforeBraces: Attach
 BreakConstructorInitializers: BeforeColon
 BreakInheritanceList: BeforeColon
 BreakStringLiterals: true
-AlwaysBreakAfterReturnType: None
-AlwaysBreakAfterDefinitionReturnType: None
-AlwaysBreakBeforeMultilineStrings: false
+AlwaysBreakAfterReturnType: TopLevel
+AlwaysBreakAfterDefinitionReturnType: TopLevel
+AlwaysBreakBeforeMultilineStrings: true
+BreakBeforeBinaryOperators: None
+BreakBeforeTernaryOperators: true
 
 # Spacing
 SpaceAfterCStyleCast: false
@@ -45,52 +49,65 @@ AlignAfterOpenBracket: Align
 AlignConsecutiveAssignments: false
 AlignConsecutiveDeclarations: false
 AlignConsecutiveMacros: false
-AlignEscapedNewlines: Right
+AlignEscapedNewlines: Left
 AlignOperands: true
 AlignTrailingComments: true
 
 # Pointer and reference alignment
 PointerAlignment: Left
 ReferenceAlignment: Left
+DerivePointerAlignment: false
 
 # Function formatting
-AllowShortFunctionsOnASingleLine: Empty
-AllowShortIfStatementsOnASingleLine: Never
-AllowShortLoopsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: Inline
+AllowShortIfStatementsOnASingleLine: WithoutElse
+AllowShortLoopsOnASingleLine: true
 AllowShortCaseLabelsOnASingleLine: false
-AllowShortBlocksOnASingleLine: Empty
+AllowShortBlocksOnASingleLine: Never
 AllowShortLambdasOnASingleLine: All
+AllowAllParametersOfDeclarationOnNextLine: true
+AllowAllArgumentsOnNextLine: true
 
-# Include sorting
-SortIncludes: true
-IncludeBlocks: Regroup
-IncludeCategories:
-  - Regex: '^<[[:alnum:]_]+>$'
-    Priority: 1
-  - Regex: '^<[[:alnum:]_]+\.h>$'
-    Priority: 2
-  - Regex: '^<.*>$'
-    Priority: 3
-  - Regex: '^".*"$'
-    Priority: 4
-
-# Other formatting options
+# Packing
 BinPackArguments: true
 BinPackParameters: true
+PackConstructorInitializers: NextLine
+
+# Include sorting
+SortIncludes: CaseSensitive
+IncludeBlocks: Regroup
+IncludeCategories:
+  # C system headers
+  - Regex: '^<[[:alnum:]._]+>$'
+    Priority: 1
+  # C++ standard library headers
+  - Regex: '^<[[:alnum:]._]+\.h>$'
+    Priority: 2
+  # Other system headers
+  - Regex: '^<.*\.h>$'
+    Priority: 3
+  # C++ standard library headers
+  - Regex: '^<.*>$'
+    Priority: 4
+  # Project headers
+  - Regex: '^".*"$'
+    Priority: 5
+
+# Other formatting options
 CompactNamespaces: false
-ConstructorInitializerAllOnOneLineOrOnePerLine: false
-ConstructorInitializerIndentWidth: 4
-ContinuationIndentWidth: 4
+ConstructorInitializerAllOnOneLineOrOnePerLine: true
 Cpp11BracedListStyle: true
-DerivePointerAlignment: false
 ExperimentalAutoDetectBinPacking: false
 FixNamespaceComments: true
-ForEachMacros: ['FOREACH', 'Q_FOREACH', 'BOOST_FOREACH']
-KeepEmptyLinesAtTheStartOfBlocks: true
+ForEachMacros:
+  - foreach
+  - Q_FOREACH
+  - BOOST_FOREACH
+KeepEmptyLinesAtTheStartOfBlocks: false
 MaxEmptyLinesToKeep: 1
 NamespaceIndentation: None
 PenaltyBreakAssignment: 2
-PenaltyBreakBeforeFirstCallParameter: 19
+PenaltyBreakBeforeFirstCallParameter: 1
 PenaltyBreakComment: 300
 PenaltyBreakFirstLessLess: 120
 PenaltyBreakString: 1000
@@ -98,3 +115,12 @@ PenaltyExcessCharacter: 1000000
 PenaltyReturnTypeOnItsOwnLine: 200
 ReflowComments: true
 SortUsingDeclarations: true
+
+# Google-specific settings
+IndentGotoLabels: true
+JavaScriptQuotes: Leave
+JavaScriptWrapImports: true
+ObjCBinPackProtocolList: Never
+ObjCBlockIndentWidth: 2
+ObjCSpaceAfterProperty: false
+ObjCSpaceBeforeProtocolList: false

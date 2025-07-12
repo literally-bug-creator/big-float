@@ -4,14 +4,19 @@ namespace big_float {
 
 using Sign = bool;
 
-Sign getPositive() noexcept;
+Sign
+GetPositive() noexcept;
 
-Sign getNegative() noexcept;
+Sign
+GetNegative() noexcept;
 
-bool isPositive(const Sign& sign) noexcept;
+bool
+IsPositive(const Sign& sign) noexcept;
 
-bool isNegative(const Sign& sign) noexcept;
+bool
+IsNegative(const Sign& sign) noexcept;
 
-Sign invert(const Sign& sign) noexcept;
+Sign
+Invert(const Sign& sign) noexcept;
 
 }  // namespace big_float

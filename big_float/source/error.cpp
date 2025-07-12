@@ -2,22 +2,26 @@
 
 namespace big_float {
 namespace {
-const Error DEFAULT_ERROR = makeError(ErrorCode::OK);
+const Error kDefaultError = MakeError(ErrorCode::kOk);
 }
 
-Error makeError(ErrorCode code) noexcept {
-    return Error{code};
+Error
+MakeError(ErrorCode code) noexcept {
+  return Error{code};
 }
 
-const ErrorCode& getErrorCode(const Error& error) noexcept {
-    return error.code;
+const ErrorCode&
+GetErrorCode(const Error& error) noexcept {
+  return error.code;
 }
 
-bool isOk(const Error& error) noexcept {
-    return getErrorCode(error) == ErrorCode::OK;
+bool
+IsOk(const Error& error) noexcept {
+  return GetErrorCode(error) == ErrorCode::kOk;
 }
 
-Error getDefaultError() noexcept {
-    return DEFAULT_ERROR;
+Error
+GetDefaultError() noexcept {
+  return kDefaultError;
 }
 }  // namespace big_float

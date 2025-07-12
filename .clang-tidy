@@ -5,17 +5,21 @@ Checks: >
   -altera-*,
   -android-*,
   -fuchsia-*,
-  -google-*,
   -llvm-*,
   -llvmlibc-*,
   -zircon-*,
-  -readability-magic-numbers,
-  -cppcoreguidelines-avoid-magic-numbers,
+  -darwin-*,
+  -linuxkernel-*,
+  -openmp-*,
+  google-*,
   -modernize-use-trailing-return-type,
-  -readability-function-cognitive-complexity,
   -bugprone-easily-swappable-parameters,
   -misc-non-private-member-variables-in-classes,
-  -cppcoreguidelines-non-private-member-variables-in-classes
+  -cppcoreguidelines-non-private-member-variables-in-classes,
+  -readability-identifier-length,
+  -cppcoreguidelines-avoid-do-while,
+  -readability-else-after-return,
+  -readability-static-accessed-through-instance,
 
 WarningsAsErrors: >
   bugprone-*,
@@ -23,74 +27,224 @@ WarningsAsErrors: >
   clang-analyzer-*,
   concurrency-*,
   cppcoreguidelines-*,
+  google-*,
   hicpp-*,
   modernize-*,
   performance-*,
   portability-*,
   readability-*
 
-HeaderFilterRegex: '(big_float|tests|benchmarks)/(?!.*third-party).*\.(h|hpp)$'
+HeaderFilterRegex: '(big_float|tests|benchmarks)/(?!.*third[_-]party).*\.(h|hpp)$'
 
 CheckOptions:
+  # Google C++ Style Guide naming conventions
   - key: readability-identifier-naming.NamespaceCase
     value: lower_case
   - key: readability-identifier-naming.ClassCase
     value: CamelCase
   - key: readability-identifier-naming.StructCase
     value: CamelCase
-  - key: readability-identifier-naming.FunctionCase
-    value: camelBack
-  - key: readability-identifier-naming.VariableCase
-    value: camelBack
-  - key: readability-identifier-naming.ParameterCase
-    value: camelBack
-  - key: readability-identifier-naming.MemberCase
-    value: camelBack
-  - key: readability-identifier-naming.PrivateMemberSuffix
-    value: _
-  - key: readability-identifier-naming.ConstantCase
-    value: UPPER_CASE
+  - key: readability-identifier-naming.UnionCase
+    value: CamelCase
   - key: readability-identifier-naming.EnumCase
     value: CamelCase
+  - key: readability-identifier-naming.FunctionCase
+    value: CamelCase
+  - key: readability-identifier-naming.MethodCase
+    value: CamelCase
+  - key: readability-identifier-naming.VariableCase
+    value: lower_case
+  - key: readability-identifier-naming.ParameterCase
+    value: lower_case
+  - key: readability-identifier-naming.MemberCase
+    value: lower_case
+  - key: readability-identifier-naming.PrivateMemberSuffix
+    value: _
+  - key: readability-identifier-naming.ProtectedMemberSuffix
+    value: _
+  - key: readability-identifier-naming.PublicMemberCase
+    value: lower_case
+  - key: readability-identifier-naming.GlobalConstantPrefix
+    value: k
+  - key: readability-identifier-naming.GlobalConstantCase
+    value: CamelCase
+  - key: readability-identifier-naming.StaticConstantPrefix
+    value: k
+  - key: readability-identifier-naming.StaticConstantCase
+    value: CamelCase
+  - key: readability-identifier-naming.ConstantMemberPrefix
+    value: k
+  - key: readability-identifier-naming.ConstantMemberCase
+    value: CamelCase
+  - key: readability-identifier-naming.ConstexprVariablePrefix
+    value: k
+  - key: readability-identifier-naming.ConstexprVariableCase
+    value: CamelCase
+  - key: readability-identifier-naming.GlobalVariableCase
+    value: lower_case
+  - key: readability-identifier-naming.StaticVariableCase
+    value: lower_case
+  - key: readability-identifier-naming.LocalConstantPrefix
+    value: k
+  - key: readability-identifier-naming.LocalConstantCase
+    value: CamelCase
+  - key: readability-identifier-naming.EnumConstantPrefix
+    value: k
   - key: readability-identifier-naming.EnumConstantCase
-    value: UPPER_CASE
+    value: CamelCase
   - key: readability-identifier-naming.MacroCase
     value: UPPER_CASE
+  - key: readability-identifier-naming.TypedefCase
+    value: CamelCase
   - key: readability-identifier-naming.TypeAliasCase
     value: CamelCase
   - key: readability-identifier-naming.TemplateParameterCase
     value: CamelCase
+  - key: readability-identifier-naming.TemplateTemplateParameterCase
+    value: CamelCase
+  - key: readability-identifier-naming.TypeTemplateParameterCase
+    value: CamelCase
+  - key: readability-identifier-naming.ValueTemplateParameterCase
+    value: CamelCase
+
+  # Google-specific options
+  - key: google-readability-casting.RestrictToExplicitCasts
+    value: true
+  - key: google-readability-todo.UserName
+    value: ''
+  - key: google-runtime-int.UnsignedTypePrefix
+    value: uint
+  - key: google-runtime-int.SignedTypePrefix
+    value: int
+  - key: google-runtime-int.TypeSuffix
+    value: ''
+
+  # Function size limits (Google is more permissive)
+  - key: readability-function-size.LineThreshold
+    value: 100
+  - key: readability-function-size.StatementThreshold
+    value: 100
+  - key: readability-function-size.BranchThreshold
+    value: 30
+  - key: readability-function-size.ParameterThreshold
+    value: 10
+  - key: readability-function-size.NestingThreshold
+    value: 6
+  - key: readability-function-size.VariableThreshold
+    value: 50
+
+  # Modernize options
   - key: modernize-loop-convert.MaxCopySize
     value: 16
   - key: modernize-loop-convert.MinConfidence
     value: reasonable
   - key: modernize-loop-convert.NamingStyle
-    value: CamelCase
+    value: lower_case
   - key: modernize-pass-by-value.IncludeStyle
-    value: llvm
+    value: google
   - key: modernize-replace-auto-ptr.IncludeStyle
-    value: llvm
+    value: google
   - key: modernize-use-nullptr.NullMacros
     value: 'NULL'
+  - key: modernize-make-unique.MakeSmartPtrFunction
+    value: 'std::make_unique'
+  - key: modernize-make-unique.MakeSmartPtrFunctionHeader
+    value: 'memory'
+  - key: modernize-make-shared.MakeSmartPtrFunction
+    value: 'std::make_shared'
+  - key: modernize-make-shared.MakeSmartPtrFunctionHeader
+    value: 'memory'
+
+  # Performance options
   - key: performance-for-range-copy.WarnOnAllAutoCopies
     value: true
+  - key: performance-for-range-copy.AllowedTypes
+    value: ''
   - key: performance-inefficient-vector-operation.EnableProto
     value: false
   - key: performance-move-const-arg.CheckTriviallyCopyableMove
     value: true
   - key: performance-type-promotion-in-math-fn.IncludeStyle
-    value: llvm
+    value: google
+  - key: performance-unnecessary-value-param.IncludeStyle
+    value: google
+  - key: performance-unnecessary-copy-initialization.AllowedTypes
+    value: ''
+
+  # Readability options
   - key: readability-braces-around-statements.ShortStatementLines
     value: 1
-  - key: readability-function-size.LineThreshold
-    value: 80
-  - key: readability-function-size.StatementThreshold
-    value: 800
-  - key: readability-function-size.BranchThreshold
-    value: 60
-  - key: readability-function-size.ParameterThreshold
-    value: 10
-  - key: readability-function-size.NestingThreshold
-    value: 4
-  - key: readability-function-size.VariableThreshold
-    value: 50
+  - key: readability-implicit-bool-conversion.AllowPointerConditions
+    value: true
+  - key: readability-implicit-bool-conversion.AllowIntegerConditions
+    value: false
+  - key: readability-redundant-smartptr-get.IgnoreMacros
+    value: true
+  - key: readability-simplify-boolean-expr.ChainedConditionalReturn
+    value: true
+  - key: readability-simplify-boolean-expr.ChainedConditionalAssignment
+    value: true
+  - key: readability-uppercase-literal-suffix.NewSuffixes
+    value: ''
+  - key: readability-uppercase-literal-suffix.IgnoreMacros
+    value: true
+
+  # Bugprone options
+  - key: bugprone-argument-comment.StrictMode
+    value: true
+  - key: bugprone-assert-side-effect.AssertMacros
+    value: 'assert,CHECK'
+  - key: bugprone-dangling-handle.HandleClasses
+    value: 'std::basic_string_view;std::experimental::basic_string_view'
+  - key: bugprone-exception-escape.FunctionsThatShouldNotThrow
+    value: ''
+  - key: bugprone-exception-escape.IgnoredExceptions
+    value: ''
+  - key: bugprone-misplaced-widening-cast.CheckImplicitCasts
+    value: true
+  - key: bugprone-sizeof-expression.WarnOnSizeOfConstant
+    value: true
+  - key: bugprone-sizeof-expression.WarnOnSizeOfIntegerExpression
+    value: true
+  - key: bugprone-sizeof-expression.WarnOnSizeOfThis
+    value: true
+  - key: bugprone-string-constructor.WarnOnLargeLength
+    value: true
+  - key: bugprone-string-constructor.LargeLengthThreshold
+    value: 1048576
+  - key: bugprone-suspicious-string-compare.WarnOnImplicitComparison
+    value: true
+  - key: bugprone-suspicious-string-compare.WarnOnLogicalNotComparison
+    value: true
+  - key: bugprone-unused-return-value.CheckedFunctions
+    value: '::std::async;::std::launder;::std::remove;::std::remove_if;::std::unique;::std::unique_ptr::release;::std::basic_string::empty;::std::vector::empty'
+
+  # Cert options
+  - key: cert-dcl16-c.NewSuffixes
+    value: 'L;LL;LU;LLU'
+  - key: cert-oop57-cpp.MemSetNames
+    value: 'memset;bzero'
+  - key: cert-oop57-cpp.MemCpyNames
+    value: 'memcpy;memccpy;memmove'
+  - key: cert-oop57-cpp.MemCmpNames
+    value: 'memcmp;bcmp'
+
+  # Cppcoreguidelines options
+  - key: cppcoreguidelines-explicit-virtual-functions.IgnoreDestructors
+    value: true
+  - key: cppcoreguidelines-macro-usage.AllowedRegexp
+    value: '^(DEBUG_|DCHECK_|CHECK_|EXPECT_|ASSERT_|TEST_|BENCHMARK_)'
+  - key: cppcoreguidelines-narrowing-conversions.PedanticMode
+    value: true
+  - key: cppcoreguidelines-pro-bounds-constant-array-index.GslHeader
+    value: 'gsl/gsl'
+  - key: cppcoreguidelines-pro-bounds-constant-array-index.IncludeStyle
+    value: google
+  - key: cppcoreguidelines-pro-type-member-init.IgnoreArrays
+    value: true
+  - key: cppcoreguidelines-special-member-functions.AllowSoleDefaultDtor
+    value: true
+  - key: cppcoreguidelines-special-member-functions.AllowMissingMoveFunctions
+    value: true
+  - key: cppcoreguidelines-special-member-functions.AllowMissingMoveFunctionsWhenCopyIsDeleted
+    value: true
