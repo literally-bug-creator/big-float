@@ -68,10 +68,13 @@ CompareNonSpecial(const BigFloat& lhs, const BigFloat& rhs) {
     return kBySign;
   }
   const Comparison kByLength = CompareByLength(lhs, rhs);
-  if (kByLength != Comparison::kEqual) {
+  if (kByLength != Comparison::kEqual && kByLength != Comparison::kNotEqual) {
     return (IsNegative(lhs)) ? Neg(kByLength) : kByLength;
   }
   const Comparison kByValue = CompareByValue(lhs, rhs);
+  if (kByValue == Comparison::kEqual || kByValue == Comparison::kNotEqual) {
+    return kByValue;
+  }
   return (IsNegative(lhs)) ? Neg(kByValue) : kByValue;
 }
 
